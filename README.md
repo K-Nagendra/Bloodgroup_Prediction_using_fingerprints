@@ -27,7 +27,7 @@ This project is a Flask web application that uses a convolutional neural network
 
 4. Run the Flask app:
    ```bash
-   python project.py
+   python3 project.py
    ```
 
 5. Open your browser and navigate to `http://localhost:5000` to access the app.
