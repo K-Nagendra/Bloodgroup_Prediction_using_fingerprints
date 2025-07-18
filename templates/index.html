@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Group Detection System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="header text-center mb-5 position-relative">
+        <div class="container">
+            <h1 class="display-4 fw-bold"><i class="fas fa-tint blood-drop me-3"></i>Fingerprint-Based Biometrics for Efficient Blood Group Prediction</h1>
+            <p class="lead">Advanced AI-powered blood group analysis</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="row gx-4">
+                    <div class="col-lg-6">
+                        <div class="glass-card mb-4">
+                            <h3 class="text-center mb-4">Upload Finger-Print Biometrics</h3>
+                            <form id="uploadForm" enctype="multipart/form-data">
+                                <div class="upload-area text-center" id="dropArea">
+                                    <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+                                    <i class="fas fa-cloud-upload-alt fa-3x mb-3"></i>
+                                    <h5>Drag & Drop or Click to Browse</h5>
+                                    <p>Supported formats: JPG, PNG, BMP</p>
+                                    <img id="imagePreview" src="" alt="Image Preview" style="display:none; max-width: 100%; margin-top: 15px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+                                </div>
+                                <div class="text-center mt-3">
+                                    <button type="submit" class="btn btn-primary">
+                                        <span id="uploadText">Analyze Sample</span>
+                                        <span id="uploadSpinner" class="spinner-border spinner-border-sm ms-2" style="display: none;"></span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+<div class="glass-card result-card" id="resultContainer" style="display: none;">
+    <h3 class="text-center mb-4">Analysis Results</h3>
+    <div class="row">
+<div class="col-6 d-flex flex-column justify-content-center align-items-center border-end">
+    <h4>Pass</h4>
+    <div id="passSection" class="mb-4 w-100"></div>
+    <h4>Fail</h4>
+    <div id="failSection" class="w-100"></div>
+</div>
+        <div class="col-6 text-center">
+            <h5>Confidence: <span id="confidenceValue"></span></h5>
+            <div class="mt-4" id="confidenceBars"></div>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <button class="btn btn-outline-primary" onclick="resetForm()">Analyze Another Sample</button>
+    </div>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Blood Group Information Section Full Width -->
+    <div class="container-fluid px-5 mt-5" id="bloodGroupInfoSection">
+        <div class="glass-card p-4">
+            <h3 class="text-center mb-4">Blood Group Information</h3>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                <!-- Blood Group A+ -->
+                <div class="col">
+                    <div class="card blood-group-card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Blood Group A+</h5>
+                            <p><strong>Can donate to:</strong> A+, AB+</p>
+                            <p><strong>Can receive from:</strong> A+, A-, O+, O-</p>
+                            <p><strong>Rarity:</strong> 35.7% of population</p>
+                            <p><strong>Description:</strong> Second most common blood type. Contains only A antigens on red blood cells and B antibodies in plasma.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Blood Group A- -->
+                <div class="col">
+                    <div class="card blood-group-card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Blood Group A-</h5>
+                            <p><strong>Can donate to:</strong> A+, A-, AB+, AB-</p>
+                            <p><strong>Can receive from:</strong> A-, O-</p>
+                            <p><strong>Rarity:</strong> 6.3% of population</p>
+                            <p><strong>Description:</strong> Contains only A antigens on red blood cells and B antibodies in plasma, but no Rh factor.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Blood Group B+ -->
+                <div class="col">
+                    <div class="card blood-group-card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Blood Group B+</h5>
+                            <p><strong>Can donate to:</strong> B+, AB+</p>
+                            <p><strong>Can receive from:</strong> B+, B-, O+, O-</p>
+                            <p><strong>Rarity:</strong> 8.5% of population</p>
+                            <p><strong>Description:</strong> Contains only B antigens on red blood cells and A antibodies in plasma.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Blood Group B- -->
+                <div class="col">
+                    <div class="card blood-group-card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Blood Group B-</h5>
+                            <p><strong>Can donate to:</strong> B+, B-, AB+, AB-</p>
+                            <p><strong>Can receive from:</strong> B-, O-</p>
+                            <p><strong>Rarity:</strong> 1.5% of population</p>
+                            <p><strong>Description:</strong> Contains only B antigens on red blood cells and A antibodies in plasma, but no Rh factor.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Blood Group O+ -->
+                <div class="col">
+                    <div class="card blood-group-card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Blood Group O+</h5>
+                            <p><strong>Can donate to:</strong> A+, B+, AB+, O+</p>
+                            <p><strong>Can receive from:</strong> O+</p>
+                            <p><strong>Rarity:</strong> 37.4% of population</p>
+                            <p><strong>Description:</strong> Most common blood type. Contains no A or B antigens on red blood cells and both A and B antibodies in plasma.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Blood Group O- -->
+                <div class="col">
+                    <div class="card blood-group-card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Blood Group O-</h5>
+                            <p><strong>Can donate to:</strong> A+, A-, B+, B-, AB+, AB-, O+, O-</p>
+                            <p><strong>Can receive from:</strong> O-</p>
+                            <p><strong>Rarity:</strong> 6.6% of population</p>
+                            <p><strong>Description:</strong> Universal donor. Contains no A or B antigens on red blood cells, no Rh factor, and both A and B antibodies in plasma.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Blood Group AB+ -->
+                <div class="col">
+                    <div class="card blood-group-card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Blood Group AB+</h5>
+                            <p><strong>Can donate to:</strong> AB+</p>
+                            <p><strong>Can receive from:</strong> A+, A-, B+, B-, AB+, AB-, O+, O-</p>
+                            <p><strong>Rarity:</strong> 3.4% of population</p>
+                            <p><strong>Description:</strong> Universal plasma donor. Contains both A and B antigens on red blood cells and no antibodies in plasma.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Blood Group AB- -->
+                <div class="col">
+                    <div class="card blood-group-card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Blood Group AB-</h5>
+                            <p><strong>Can donate to:</strong> AB+, AB-</p>
+                            <p><strong>Can receive from:</strong> A-, B-, O-</p>
+                            <p><strong>Rarity:</strong> 0.6% of population</p>
+                            <p><strong>Description:</strong> Contains both A and B antigens on red blood cells but no Rh factor.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
